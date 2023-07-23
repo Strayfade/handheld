@@ -181,7 +181,7 @@ class VirtualGamepad:
 		VersionInfo = 0x903
 		BusTypeInfo = 0x5
 		self.device = uinput.Device([uinput.KEY_E])
-		self.ui = UInput(Capabilities, deviceName, VendorInfo, ProductInfo, VersionInfo, BusTypeInfo, phys=deviceName)
+		self.ui = UInput(events=Capabilities, name=deviceName, vendor=VendorInfo, product=ProductInfo, version=VersionInfo, bustype=BusTypeInfo)
 
 	def DigitalWrite(self, Event, Value):
 		self.ui.write(e.EV_KEY, Event, int(Value))
