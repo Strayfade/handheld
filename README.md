@@ -1,12 +1,10 @@
-# **[switchplate]**
+### **[switchplate]**
 "*Your Gateway to Retro Gaming On-The-Go*"
 
-## Links
+### Links
  - **[PCB Schematic](https://github.com/Strayfade/Handheld/blob/main/pcb/Schematic.pdf)**
  - **[PCB Gerber Archive](https://github.com/Strayfade/Handheld/blob/main/pcb/Gerber.zip)**
  - **[Built-in Controller "Firmware"](https://github.com/Strayfade/Handheld/blob/main/firmware/Main.py)**
-
-#
 
 Switchplate, a handheld computer inspired by the design principles of renowned gaming consoles like **Nintendo Switch** and **Steam Deck**, brings the magic of retro gaming to your portable collection. The Switchplate boasts a **7" touchscreen display** and a seamlessly integrated **built-in gamepad** for an authentic and immersive experience.
 
