@@ -67,6 +67,10 @@ flTriggerThreshold = 0.1
 bSwapBumpersAndTriggers = False
 # Makes the bumpers into triggers and the triggers into
 # bumpers
+bDisableBumpers = False
+# Disables bumpers completely
+bDisableTriggers = False
+# Disables triggers completely
 
 
 
@@ -240,28 +244,32 @@ if __name__ == "__main__":
                         # Refresh Bumpers and Triggers
                         if bSwapBumpersAndTriggers:
                                 # Bumpers
-                                if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
-                                if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
+								if not bDisableTriggers:
+									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
+									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
 
-                                # Triggers
-                                if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
-                                if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
+								# Triggers
+								if not bDisableBumpers:
+									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
+									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
                         else:
                                 # Bumpers
-                                if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
-                                if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
+								if not bDisableBumpers:
+									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
+									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
 
                                 # Triggers
-                                if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
-                                if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
+								if not bDisableTriggers:
+									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
+									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
 
                         # Refresh Directional Pad
                         dX = 0
