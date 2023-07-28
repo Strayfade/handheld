@@ -14,8 +14,8 @@ from evdev import UInput, AbsInfo, ecodes as e
 #   is required to use the MCP3008-I/P circuit with a Raspberry
 #   Pi. SPI communication can be enabled through raspi-config.
 # - Some commands are required (on SOME systems) to enable
-#   writing to /dev/uinput. Run the following command as root:
-#   "modprobe uinput && chmod a+r+w /dev/uinput"
+#   writing to /dev/uinput. Run the following command (as root):
+#   "sudo modprobe uinput && sudo chmod a+r+w /dev/uinput"
 
 
 
