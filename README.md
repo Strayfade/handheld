@@ -16,7 +16,7 @@ Required:
 
 Optional:
  - **[Raspberry Pi Heatsink](https://www.digikey.com/en/products/detail/adafruit-industries-llc/3082/6047742)** (highly recommended)
- - **[Connector Headers](https://www.digikey.com/en/products/detail/jst-sales-america-inc/B3P-VH-LF-SN/926548)** (for Fan connection and Triggers/Bumpers, x5 minimum)
+ - **[JST-VH Connectors](https://www.digikey.com/en/products/detail/jst-sales-america-inc/B3P-VH-LF-SN/926548)** (for Fan connection and Triggers/Bumpers, x5 minimum)
  - **[Sliding Potentiometers](https://www.digikey.com/en/products/detail/bourns-inc/PTA1543-2010CIB103/3781161)** (for Triggers/Bumpers, x4 minimum)
 
 ### Links
