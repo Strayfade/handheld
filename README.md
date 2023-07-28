@@ -7,7 +7,7 @@ This project is very much a **work-in-progress**! Things could change, parts cou
 ### Parts List
 Required:
  - **Raspberry Pi 3 B+** (with microSD card)
- - **Custom PCB** ([Gerber](https://github.com/Strayfade/Handheld/blob/main/pcb/Gerber.zip))
+ - **Custom PCB** ([Download Gerber files](https://github.com/Strayfade/Handheld/blob/main/pcb/Gerber.zip))
  - **[COM-09032 Joysticks](https://www.digikey.com/en/products/detail/sparkfun-electronics/COM-09032/6823623)** (x2 minimum)
  - **[On/Off Switch](https://www.digikey.com/en/products/detail/te-connectivity-alcoswitch-switches/1825232-1/4021554)**
  - **[Battery Charge Controller](https://www.digikey.com/en/products/detail/seeed-technology-co-ltd/106990290/10451861)**
