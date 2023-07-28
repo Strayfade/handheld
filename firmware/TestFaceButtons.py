@@ -2,7 +2,7 @@ import uinput
 from gpiozero import Button, MCP3008
 from evdev import UInput, AbsInfo, ecodes as e
 
-
+# Firmware v1.0.0
 
 # This script is responsible for reading the values from
 # components wired to the GPIO headers on the Raspberry Pi.
@@ -13,12 +13,14 @@ from evdev import UInput, AbsInfo, ecodes as e
 # - SPI communication is required on the system. The SPI bus
 #   is required to use the MCP3008-I/P circuit with a Raspberry
 #   Pi. SPI communication can be enabled through raspi-config.
+# - Some commands are required (on SOME systems) to enable
+#   writing to /dev/uinput. Run the following command (as root):
 
 
 
-### BEGIN CONFIG ###
-
-# 1. GPIO per-pin configuration
+# CONFIGURATION 1. Button GPIO pins
+# Note that these pins are labeled by their GPIO pin number, not
+# their *actual* pin number.
 pButtonA = 5
 pButtonB = 13
 pButtonX = 26
@@ -36,7 +38,9 @@ pButtonHome = 6
 # pButtonSelect is the same as MenuA on the PCB
 # pButtonStart is the same as MenuB on the PCB
 
-# 2. MCP3008-I/P channel configuration
+# CONFIGURATION 2. MCP3008-I/P channels
+# The MCP3008-I/P is an 8-channel analog-to-digital
+# converter (ADC). 
 chLeftJoystickX = 0
 chLeftJoystickY = 1
 chRightJoystickX = 2
@@ -50,11 +54,11 @@ chRightTrigger = 7
 # analog potentiometers. This was done for customizability
 # (triggers and bumpers can be swapped) and for comfort.
 
-# 3. User Options
+# CONFIGURATION 3. User Options
 flBumperThreshold = 0.1
 # Defines how far the bumpers need to be pushed before
-# reading as "pressed" (when the bumpers are not acting as
-# triggers)
+# reading as "pressed" (when the bumpers are acting as
+# bumpers)
 flTriggerThreshold = 0.1
 # Defines how far the triggers need to be pushed before
 # reading as "pressed" (when the triggers are acting as
@@ -62,8 +66,10 @@ flTriggerThreshold = 0.1
 bSwapBumpersAndTriggers = False
 # Makes the bumpers into triggers and the triggers into
 # bumpers
-
-### END CONFIG ###
+bDisableBumpers = False
+# Disables bumpers completely
+bDisableTriggers = False
+# Disables triggers completely
 
 
 
@@ -91,7 +97,8 @@ class GamepadReader:
         RightBumper = MCP3008(chRightBumper)
         LeftTrigger = MCP3008(chLeftTrigger)
         RightTrigger = MCP3008(chRightTrigger)
-Reader = GamepadReader()
+GlobalReader = GamepadReader()
+
 # Class responsible for holding values to determine
 # if the virtual gamepad needs refreshed
 class GamepadState:
@@ -118,27 +125,27 @@ class GamepadState:
         sRightTrigger = 0
 
         def __init__(self):
-                self.sButtonA = Reader.ButtonA.is_pressed
-                self.sButtonB = Reader.ButtonB.is_pressed
-                self.sButtonX = Reader.ButtonX.is_pressed
-                self.sButtonY = Reader.ButtonY.is_pressed
-                self.sButtonUp = Reader.ButtonUp.is_pressed
-                self.sButtonDown = Reader.ButtonDown.is_pressed
-                self.sButtonLeft = Reader.ButtonLeft.is_pressed
-                self.sButtonRight = Reader.ButtonRight.is_pressed
-                self.sButtonLeftJoystick = Reader.ButtonLeftJoystick.is_pressed
-                self.sButtonRightJoystick = Reader.ButtonRightJoystick.is_pressed
-                self.sButtonSelect = Reader.ButtonSelect.is_pressed
-                self.sButtonStart = Reader.ButtonStart.is_pressed
-                self.sButtonHome = Reader.ButtonHome.is_pressed
-                self.sLeftJoystickX = 0 #Reader.LeftJoystickX.value
-                self.sLeftJoystickY = 0 #Reader.LeftJoystickY.value
-                self.sRightJoystickX = 0 #Reader.RightJoystickX.value
-                self.sRightJoystickY = 0 #Reader.RightJoystickY.value
-                self.sLeftBumper = 0 #Reader.LeftBumper.value
-                self.sRightBumper = 0 #Reader.RightBumper.value
-                self.sLeftTrigger = 0 #Reader.LeftTrigger.value
-                self.sRightTrigger = 0 #Reader.RightTrigger.value
+                self.sButtonA = GlobalReader.ButtonA.is_pressed
+                self.sButtonB = GlobalReader.ButtonB.is_pressed
+                self.sButtonX = GlobalReader.ButtonX.is_pressed
+                self.sButtonY = GlobalReader.ButtonY.is_pressed
+                self.sButtonUp = GlobalReader.ButtonUp.is_pressed
+                self.sButtonDown = GlobalReader.ButtonDown.is_pressed
+                self.sButtonLeft = GlobalReader.ButtonLeft.is_pressed
+                self.sButtonRight = GlobalReader.ButtonRight.is_pressed
+                self.sButtonLeftJoystick = GlobalReader.ButtonLeftJoystick.is_pressed
+                self.sButtonRightJoystick = GlobalReader.ButtonRightJoystick.is_pressed
+                self.sButtonSelect = GlobalReader.ButtonSelect.is_pressed
+                self.sButtonStart = GlobalReader.ButtonStart.is_pressed
+                self.sButtonHome = GlobalReader.ButtonHome.is_pressed
+                self.sLeftJoystickX = 0 #GlobalReader.LeftJoystickX.value
+                self.sLeftJoystickY = 0 #GlobalReader.LeftJoystickY.value
+                self.sRightJoystickX = 0 #GlobalReader.RightJoystickX.value
+                self.sRightJoystickY = 0 #GlobalReader.RightJoystickY.value
+                self.sLeftBumper = 0 #GlobalReader.LeftBumper.value
+                self.sRightBumper = 0 #GlobalReader.RightBumper.value
+                self.sLeftTrigger = 0 #GlobalReader.LeftTrigger.value
+                self.sRightTrigger = 0 #GlobalReader.RightTrigger.value
 
 # Class responsible for emulating a game controller
 class VirtualGamepad:
@@ -196,17 +203,18 @@ class VirtualGamepad:
                 self.ui.syn()
 
 if __name__ == "__main__":
-        # Create a virtual (emulated) gamepad
+        # Create a virtual (emulated) gamepad with the name "Built-in Gamepad"
         Gamepad = VirtualGamepad("Built-in Gamepad")
 
-        # Create state
+        # Create gamepad state for updating
         PreviousState = GamepadState()
         FirstRun = True
         while True:
                 try:
+						# Get the current gamepad state
                         NewState = GamepadState()
 
-                        # Check Buttons
+                        # Refresh Buttons
                         if (NewState.sButtonA != PreviousState.sButtonA) or FirstRun:
                                 Gamepad.DigitalWrite(e.BTN_A, NewState.sButtonA)
                         if (NewState.sButtonB != PreviousState.sButtonB) or FirstRun:
@@ -226,7 +234,7 @@ if __name__ == "__main__":
                         if (NewState.sButtonHome != PreviousState.sButtonHome) or FirstRun:
                                 Gamepad.DigitalWrite(e.KEY_HOMEPAGE, NewState.sButtonHome)
 
-                        # Check Joysticks
+                        # Refresh Joysticks
                         if (NewState.sLeftJoystickX != PreviousState.sLeftJoystickX) or FirstRun:
                                 Gamepad.AnalogWrite(e.ABS_X, NewState.sLeftJoystickX)
                         if (NewState.sLeftJoystickY != PreviousState.sLeftJoystickY) or FirstRun:
@@ -236,33 +244,37 @@ if __name__ == "__main__":
                         if (NewState.sRightJoystickY != PreviousState.sRightJoystickY) or FirstRun:
                                 Gamepad.AnalogWrite(e.ABS_RZ, NewState.sRightJoystickY)
 
-                        # Check Bumpers and Triggers
+                        # Refresh Bumpers and Triggers
                         if bSwapBumpersAndTriggers:
                                 # Bumpers
-                                if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
-                                if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
+								if not bDisableTriggers:
+									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
+									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
 
-                                # Triggers
-                                if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
-                                if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
+								# Triggers
+								if not bDisableBumpers:
+									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
+									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
                         else:
                                 # Bumpers
-                                if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
-                                if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
+								if not bDisableBumpers:
+									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
+									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
 
                                 # Triggers
-                                if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
-                                if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-                                        Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
+								if not bDisableTriggers:
+									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
+									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
 
-                        # Check Directional Pad
+                        # Refresh Directional Pad
                         dX = 0
                         dY = 0
                         if NewState.sButtonUp:
