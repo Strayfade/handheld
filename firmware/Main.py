@@ -2,7 +2,7 @@ import uinput
 from gpiozero import Button, MCP3008
 from evdev import UInput, AbsInfo, ecodes as e
 
-# Firmware v1.0.0
+# Firmware v1.0.1
 
 # This script is responsible for reading the values from
 # components wired to the GPIO headers on the Raspberry Pi.
@@ -14,7 +14,8 @@ from evdev import UInput, AbsInfo, ecodes as e
 #   is required to use the MCP3008-I/P circuit with a Raspberry
 #   Pi. SPI communication can be enabled through raspi-config.
 # - Some commands are required (on SOME systems) to enable
-#   writing to /dev/uinput. Run the following command (as root):
+#   writing to /dev/uinput. Run the following command as root:
+#   "modprobe uinput && sudo chmod a+r+w /dev/uinput"
 
 
 
@@ -247,32 +248,31 @@ if __name__ == "__main__":
                         # Refresh Bumpers and Triggers
                         if bSwapBumpersAndTriggers:
                                 # Bumpers
-								if not bDisableTriggers:
-									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
-									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
-
-								# Triggers
-								if not bDisableBumpers:
-									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
-									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
+                                if not bDisableTriggers:
+                                        if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+                                                Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftBumper, 1023)
+                                        if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+                                                Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightBumper, 1023)
+                                # Triggers
+                                if not bDisableBumpers:
+                                        if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+                                                Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftTrigger > flTriggerThreshold)
+                                        if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+                                                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightTrigger > flTriggerThreshold)
                         else:
                                 # Bumpers
-								if not bDisableBumpers:
-									if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
-											Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
-									if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
-											Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
+                                if not bDisableBumpers:
+                                        if (NewState.sLeftBumper != PreviousState.sLeftBumper) or FirstRun:
+                                                        Gamepad.DigitalWrite(e.BTN_TL, NewState.sLeftBumper > flBumperThreshold)
+                                        if (NewState.sRightBumper != PreviousState.sRightBumper) or FirstRun:
+                                                        Gamepad.DigitalWrite(e.BTN_TR, NewState.sRightBumper > flBumperThreshold)
 
                                 # Triggers
-								if not bDisableTriggers:
-									if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
-											Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
-									if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
-											Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
+                                if not bDisableTriggers:
+                                        if (NewState.sLeftTrigger != PreviousState.sLeftTrigger) or FirstRun:
+                                                Gamepad.AnalogWrite(e.ABS_BRAKE, NewState.sLeftTrigger, 1023)
+                                        if (NewState.sRightTrigger != PreviousState.sRightTrigger) or FirstRun:
+                                                Gamepad.AnalogWrite(e.ABS_GAS, NewState.sRightTrigger, 1023)
 
                         # Refresh Directional Pad
                         dX = 0
