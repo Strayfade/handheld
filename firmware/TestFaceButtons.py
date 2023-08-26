@@ -15,7 +15,7 @@ from evdev import UInput, AbsInfo, ecodes as e
 #   Pi. SPI communication can be enabled through raspi-config.
 # - Some commands are required (on SOME systems) to enable
 #   writing to /dev/uinput. Run the following command as root:
-#   "modprobe uinput && sudo chmod a+r+w /dev/uinput"
+#   "sudo modprobe uinput && sudo chmod a+r+w /dev/uinput"
 
 
 
