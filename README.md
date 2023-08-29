@@ -1,6 +1,8 @@
 ### ***IMPORTANT***
 This project is very much a **work-in-progress**! Things could change, parts could be added or removed, and documentation could change in the future! This is by **no means** a finished product.
 
+When this project is finished, better assembly instructions will be made. Right now, this project is incomplete and should only be used as reference material.
+
 ### Parts List
 Required:
  - **Raspberry Pi 3 B+** (with microSD card)
