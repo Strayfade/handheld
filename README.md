@@ -15,7 +15,7 @@ Required:
  - **Raspberry Pi 3 B+** (with microSD card)
  - **[Raspberry Pi Heatsink](https://www.digikey.com/en/products/detail/adafruit-industries-llc/3082/6047742)** (highly recommended)
  - **Custom PCB** ([Download design files](https://github.com/Strayfade/handheld/tree/main/pcb))
- - *The rest of the BOM can be found [here](https://github.com/Strayfade/handheld/blob/main/pcb/Handheld%20BOM.csv)*
+ - ***The rest of the BOM can be found [here](https://github.com/Strayfade/handheld/blob/main/pcb/Handheld%20BOM.csv).***
 
 ### Links
  - **[PCB Archive](https://github.com/Strayfade/handheld/tree/main/pcb)**
