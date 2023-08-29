@@ -3,6 +3,13 @@ This project is very much a **work-in-progress**! Things could change, parts cou
 
 When this project is finished, better assembly instructions will be made. Right now, this project is incomplete and should only be used as reference material.
 
+### Current Issues
+ - GPIO/BCM pin 7 is not able to be accessed from packages `gpiozero` or `RPi.GPIO`
+   - https://forums.raspberrypi.com//viewtopic.php?t=183481
+   - https://forums.raspberrypi.com//viewtopic.php?t=129015
+   - https://github.com/raspberrypi/linux/issues/791
+   - https://github.com/gpiozero/gpiozero/issues/50
+
 ### Parts List
 Required:
  - **Raspberry Pi 3 B+** (with microSD card)
