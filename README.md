@@ -1,3 +1,7 @@
+<h1 align="center">Handheld Game Emulation/Streaming Device*</h1>
+
+<h6 align="center">*based on Raspberry Pi</h6>
+
 ### ***IMPORTANT***
 This project is very much a **work-in-progress**! Things could change, parts could be added or removed, and documentation could change in the future! This is by **no means** a finished product.
 
@@ -22,3 +26,12 @@ Required:
 ### Links
  - **[PCB Archive](https://github.com/Strayfade/handheld/tree/main/pcb)**
  - **[Built-in Controller "Firmware"](https://github.com/Strayfade/Handheld/blob/main/firmware/Main.py)** (Python)
+
+#
+<p align="center">
+ 
+<img alt="Code Size (kb)" src="https://img.shields.io/github/languages/code-size/Strayfade/handheld?style=for-the-badge&color=FFF">
+<img alt="GPLv3 License" src="https://img.shields.io/github/license/Strayfade/handheld?style=for-the-badge&color=FFF">
+<img alt="Languages" src="https://img.shields.io/github/languages/top/Strayfade/handheld?style=for-the-badge&color=FFF">
+
+</p>
