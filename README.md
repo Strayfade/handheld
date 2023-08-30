@@ -2,12 +2,12 @@
 
 <h6 align="center">*based on Raspberry Pi</h6>
 
-### ***IMPORTANT***
+### **IMPORTANT**
 This project is very much a **work-in-progress**! Things could change, parts could be added or removed, and documentation could change in the future! This is by **no means** a finished product.
 
 When this project is finished, better assembly instructions will be made. Right now, this project is incomplete and should only be used as reference material.
 
-### Caveats/Considerations
+### Caveats
  - Add `dtoverlay=spi0-1cs,cs0_pin=8` to `/boot/config.txt` to disable the GPIO 7 Chip Select pin on the `spi0` interface.
    - This pin is disallowed from being reserved by the OS because it's necessary for reading the Left D-Pad button.
    - See https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L3873
