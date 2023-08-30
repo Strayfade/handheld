@@ -7,7 +7,7 @@ MCP = Adafruit_MCP3008.MCP3008(clk=11, cs=8, miso=9, mosi=10)
 #import alsaaudio
 
 class MCP3008:
-    def __init__(self, Channel)
+    def __init__(self, Channel):
         self.Channel = Channel
     def value():
         return MCP.read_adc(self.Channel)
@@ -27,7 +27,7 @@ class MCP3008:
 #   writing to /dev/uinput. Run the following command as root:
 #   "sudo modprobe uinput && sudo chmod a+r+w /dev/uinput"
 # - The following packages are required:
-#   sudo python3 -m pip install evdev gpiozero python-uinput pyalsaaudio
+#   sudo python3 -m pip install evdev gpiozero python-uinput adafruit-mcp3008
 
 # CONFIGURATION 1. Button GPIO pins
 # Note that these pins are labeled by their GPIO pin number, not
