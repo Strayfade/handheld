@@ -1,7 +1,16 @@
 import uinput
-from gpiozero import Button, MCP3008
+from gpiozero import Button
 from evdev import UInput, AbsInfo, ecodes as e
-import alsaaudio
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
+MCP = Adafruit_MCP3008.MCP3008(clk=11, cs=8, miso=9, mosi=10)
+#import alsaaudio
+
+class MCP3008:
+    def __init__(self, Channel)
+        self.Channel = Channel
+    def value():
+        return MCP.read_adc(self.Channel)
 
 # Firmware v3.0
 
@@ -132,10 +141,10 @@ class GamepadState:
         self.sButtonStart = GlobalReader.ButtonStart.is_pressed
         self.sButtonHomeLeft = GlobalReader.ButtonHomeLeft.is_pressed
         self.sButtonHomeRight = GlobalReader.ButtonHomeRight.is_pressed
-        self.sLeftJoystickX = GlobalReader.LeftJoystickX.value
-        self.sLeftJoystickY = GlobalReader.LeftJoystickY.value
-        self.sRightJoystickX = GlobalReader.RightJoystickX.value
-        self.sRightJoystickY = GlobalReader.RightJoystickY.value
+        self.sLeftJoystickX = GlobalReader.LeftJoystickX.value()
+        self.sLeftJoystickY = GlobalReader.LeftJoystickY.value()
+        self.sRightJoystickX = GlobalReader.RightJoystickX.value()
+        self.sRightJoystickY = GlobalReader.RightJoystickY.value()
         self.sButtonVolumeUp = GlobalReader.ButtonVolumeUp.is_pressed
         self.sButtonVolumeDown = GlobalReader.ButtonVolumeDown.is_pressed
 
@@ -210,9 +219,6 @@ if __name__ == "__main__":
     # Create a virtual (emulated) gamepad with the name "Built-in Gamepad"
     Gamepad = VirtualGamepad("Built-in Gamepad")
 
-    # Create a mixer control
-    Mixer = alsaaudio.Mixer()
-
     # Create gamepad state for updating
     PreviousState = GamepadState()
     FirstRun = True
@@ -277,13 +283,13 @@ if __name__ == "__main__":
 
             # Refresh volume controls
             if ((NewState.sButtonVolumeUp != PreviousState.sButtonVolumeUp) and NewState.sButtonVolumeUp):
-                AlsaCurrentVolume = Mixer.getvolume()[0]
+                AlsaCurrentVolume = 0#Mixer.getvolume()[0]
                 AlsaNewVolume = min(100, AlsaCurrentVolume + flVolumeStepSizePercent)
-                Mixer.setvolume(AlsaNewVolume)
+                #Mixer.setvolume(AlsaNewVolume)
             if ((NewState.sButtonVolumeDown != PreviousState.sButtonVolumeDown) and NewState.sButtonVolumeDown):
-                AlsaCurrentVolume = Mixer.getvolume()[0]
+                AlsaCurrentVolume = 0#Mixer.getvolume()[0]
                 AlsaNewVolume = max(0, AlsaCurrentVolume - flVolumeStepSizePercent)
-                Mixer.setvolume(AlsaNewVolume)
+                #Mixer.setvolume(AlsaNewVolume)
 
             # Resync
             Gamepad.ui.syn()
