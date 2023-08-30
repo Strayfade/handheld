@@ -4,13 +4,13 @@ This project is very much a **work-in-progress**! Things could change, parts cou
 When this project is finished, better assembly instructions will be made. Right now, this project is incomplete and should only be used as reference material.
 
 ### Caveats/Considerations
- - Add `dtoverlay=spi0-1cs,cs0_pin=8` to `/boot/config.txt` to disable GPIO 7 SPI0 Chip Select pin
-   - This pin cannot be reserved by the OS because it's used for reading the Left D-Pad button.
+ - Add `dtoverlay=spi0-1cs,cs0_pin=8` to `/boot/config.txt` to disable the GPIO 7 Chip Select pin on the `spi0` interface.
+   - This pin is disallowed from being reserved by the OS because it's necessary for reading the Left D-Pad button.
    - See https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L3873
    - See https://raspberrypi.stackexchange.com/a/144210/156599
- - Add `display_rotate=2` and `lcd_rotate=2` to `/boot/config.txt` to rotate the display and touchscreen 180 degrees
-   - The `--screenrotate 2` argument may also be required in EmulationStations autostart config, depending on how it was installed (this is usually not required)
- - Add `avoid_warnings=1` to `/boot/config.txt` to remove the Pi's undervoltage symbol from the UI (not recommended, but necessary)
+ - Add `display_rotate=2` and `lcd_rotate=2` to `/boot/config.txt` to rotate the display and touchscreen 180 degrees.
+   - The `--screenrotate 2` argument may also be required in EmulationStations autostart config, depending on how it was installed (this is usually not required).
+ - Add `avoid_warnings=1` to `/boot/config.txt` to remove the Pi's undervoltage symbol from the UI (not recommended, but necessary).
 
 ### Parts List
 Required:
