@@ -3,12 +3,14 @@ This project is very much a **work-in-progress**! Things could change, parts cou
 
 When this project is finished, better assembly instructions will be made. Right now, this project is incomplete and should only be used as reference material.
 
-### Current Issues
- - GPIO/BCM pin 7 is not able to be accessed from packages `gpiozero` or `RPi.GPIO`
-   - https://forums.raspberrypi.com//viewtopic.php?t=183481
-   - https://forums.raspberrypi.com//viewtopic.php?t=129015
-   - https://github.com/raspberrypi/linux/issues/791
-   - https://github.com/gpiozero/gpiozero/issues/50
+### Caveats/Considerations
+ - Add `dtoverlay=spi0-1cs,cs0_pin=8` to `/boot/config.txt` to disable GPIO 7 SPI0 Chip Select pin
+   - This pin cannot be reserved by the OS because it's used for reading the Left D-Pad button.
+   - See https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L3873
+   - See https://raspberrypi.stackexchange.com/a/144210/156599
+ - Add `display_rotate=2` and `lcd_rotate=2` to `/boot/config.txt` to rotate the display and touchscreen 180 degrees
+   - The `--screenrotate 2` argument may also be required in EmulationStations autostart config, depending on how it was installed (this is usually not required)
+ - Add `avoid_warnings=1` to `/boot/config.txt` to remove the Pi's undervoltage symbol from the UI (not recommended, but necessary)
 
 ### Parts List
 Required:
